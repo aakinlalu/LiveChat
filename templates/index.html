@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>livechat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" media="screen">
+    <style type="text/css">
+        .container {
+            max-width: 1000px;
+        }
+
+        section {
+            display: solid;
+            border: 1px solid powderblue;
+            padding: 10px;
+        }
+
+        .cls-message {
+            border-left: 6px solid #6699ff;
+            background-color: #66ffff;
+        }
+
+        .sub-title {
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h2 style="text-align:center;">LiveChat App</h2>
+        </header>
+        <hr>
+        <h5>LiveChat:</h5>
+        <section>
+            <form action="/" method=post>
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <p>{{ form.Message(class="form-control", placeholder="Please submit your opinion on any issues...") }}</p>
+                    <p>{{ form.Gender.label }} {{ form.Gender }}</p>
+                    <p>{{ form.submit() }}</p>
+                </div>
+            </form>
+        </section>
+        <br>
+        <hr>
+        <br>
+        <h5>Sentiment Analyzer:</h5>
+        <section>
+            <table class="table table-striped" style="max-width: 1000px">
+                <tr>
+                    <th colspan="2">Opinion</th>
+                    <th>Metrics</th>
+                    <th>Outcomes</th>
+                </tr>
+                <tr>
+                    <td colspan="2" rowspan="4">
+                        <div class='cls-message'>
+                            {% if message != None %} {{message}} {% endif %}
+                        </div>
+                        <td>
+                            <td></td>
+                            <td></td>
+                </tr>
+                <tr>
+                    <td>Classification</td>
+                    <td>{% if cl != None %} {{cl}} {% endif %}</td>
+                </tr>
+                <tr>
+                    <td>p_pos</td>
+                    <td> {% if pos != None %} {{pos}} {% endif %}</td>
+                </tr>
+                <tr>
+                    <td>p_neg</td>
+                    <td>{% if neg != None %} {{neg}} {% endif %}</td>
+                </tr>
+            </table>
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        </section>
+        <h5>Entity Recognizer:</h5>
+        <section> {% include "entity.html" %} </section>
+
+    </div>
+
+</body>
+
+</html>
