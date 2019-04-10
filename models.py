@@ -15,19 +15,19 @@ class Result(db.Model):
 
     id =db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    text=db.Column(db.String())
-    gender=db.Column(db.String())
-    sentiment=db.Column(db.String())
-    p_pos=db.Column(db.Integer)
-    p_neg=db.Column(db.Integer)
+    message=db.Column(db.String(500))
+    gender=db.Column(db.String(15))
+    cl=db.Column(db.String(15))
+    pos=db.Column(db.Float)
+    neg=db.Column(db.Float)
     #result_all = db.Column(JSON(astext_type=None, none_as_null=False))
 
-    def __init__(self, text, gender, sentiment, p_pos, p_neg):
-        self.text = text
+    def __init__(self, message, gender, cls, pos, neg):
+        self.message = message
         self.gender = gender
-        self.sentiment = sentiment
-        self.p_pos=p_pos
-        self.p_neg=p_neg
+        self.cl= cl
+        self.pos=p_pos
+        self.ganeg=p_neg
         #self.result_all=result_all
 
 
