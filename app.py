@@ -48,8 +48,9 @@ class LivechatForm(Form):
       submit = SubmitField("Submit")
 
 app = Flask(__name__)
-app.secret_key = 'development key'
+#app.secret_key = 'development key'
 app.config.from_object(os.environ['APP_SETTINGS'])
+app.config['SQLALCHEMY_DATABASE_URI']=os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
