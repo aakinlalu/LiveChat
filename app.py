@@ -5,47 +5,13 @@ from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 import requests
 
-from flask_wtf import Form
-from wtforms import TextField, IntegerField, TextAreaField, SubmitField, RadioField,SelectField
-from wtforms import validators, ValidationError
-
-from textblob import TextBlob
-from textblob.sentiments import NaiveBayesAnalyzer
-import spacy
-from spacy import displacy
+from flask_migrate import Migrate, MigrateCommand
 
 
-class TextAnalyser:
-    def __init__(self, text):
-        self.text = text
+from forms import LivechatForm
+from text_model import TextAnalyser
 
 
-    def opinion(self):
-        blob = TextBlob(self.text, analyzer=NaiveBayesAnalyzer())
-        classification = None
-        positive = round(blob.sentiment.p_pos, 2)
-        negative = round(blob.sentiment.p_neg, 2)
-        if blob.sentiment.classification=="pos":
-            classification="Positive"
-        elif blob.sentiment.classification=="neg":
-            classification="Negative"
-
-        return classification, positive, negative
-
-    def entity(self, filename):
-        nlp = spacy.load("en_core_web_sm")
-        doc = nlp(self.text)
-        html_entity = displacy.render(doc, style="ent")
-        output_path = Path(filename)
-        output_path.open("w", encoding="utf-8").write(html_entity)
-
-
-class LivechatForm(Form):
-      Message = TextAreaField("Message")
-      #Gender = RadioField('Gender', choices = [('M','Male'),('F','Female')])
-      Gender = SelectField('Gender', choices = [('Female', 'Female'),
-      ('Male', 'Male')])
-      submit = SubmitField("Submit")
 
 app = Flask(__name__)
 #app.secret_key = 'development key'
@@ -67,6 +33,10 @@ def index():
         cl, pos, neg = Text_analyser.opinion()
         entity = Text_analyser.entity('templates/entity.html')
 
+        result = Result(message=message,gender=gender,cl=cl,pos=pos, neg=neg)
+
+        db.session.add(result)
+        db.session.commit()
 
     else:
         message = None

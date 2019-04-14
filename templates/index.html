@@ -40,9 +40,9 @@
             <form action="/" method=post>
                 {{ form.hidden_tag() }}
                 <div class="form-group">
-                    <p>{{ form.Message(class="form-control", placeholder="Please submit your opinion on any issues...") }}</p>
+                    <p>{{ form.Message(class="form-control", placeholder="Please submit your opinion on any issues...", rows='7', cols='40')}}</p>
                     <p>{{ form.Gender.label }} {{ form.Gender }}</p>
-                    <p>{{ form.submit() }}</p>
+                    <p style="text-align:center;">{{ form.submit() }}</p>
                 </div>
             </form>
         </section>
